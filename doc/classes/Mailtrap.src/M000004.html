@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>serve (Mailtrap)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/mailtrap.rb, line 80</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">serve</span>( <span class="ruby-identifier">connection</span> )
+    <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span>( <span class="ruby-node">&quot;220 #{@host} MailTrap ready ESTMP&quot;</span> )
+    <span class="ruby-identifier">helo</span> = <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">get_line</span> <span class="ruby-comment cmt"># whoever they are</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Helo: #{helo}&quot;</span>
+    
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">helo</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^EHLO\s+/</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Seen an EHLO&quot;</span>
+      <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;250-#{@host} offers just ONE extension my pretty&quot;</span>
+      <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;250 HELP&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-comment cmt"># Accept MAIL FROM:</span>
+    <span class="ruby-identifier">from</span> = <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">get_line</span>
+    <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span>( <span class="ruby-value str">&quot;250 OK&quot;</span> )
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;From: #{from}&quot;</span>
+    
+    <span class="ruby-identifier">to_list</span> = []
+    
+    <span class="ruby-comment cmt"># Accept RCPT TO: until we see DATA</span>
+    <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">to</span> = <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">get_line</span>
+      <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span>
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">to</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^DATA/</span>
+        <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span>( <span class="ruby-value str">&quot;354 Start your message&quot;</span> )
+        <span class="ruby-keyword kw">break</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;To: #{to}&quot;</span>
+        <span class="ruby-identifier">to_list</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">to</span>
+        <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span>( <span class="ruby-value str">&quot;250 OK&quot;</span> )
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-comment cmt"># Capture the message body terminated by &lt;CR&gt;.&lt;CR&gt;</span>
+    <span class="ruby-identifier">lines</span> = []
+    <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">line</span> = <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">get_line</span>
+      <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;.&quot;</span>
+      <span class="ruby-identifier">lines</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">line</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;+ #{line}&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># We expect the client will go away now</span>
+    <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span>( <span class="ruby-value str">&quot;250 OK&quot;</span> )
+    <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">gets</span> <span class="ruby-comment cmt"># Quit</span>
+    <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;221 Seeya&quot;</span>
+    <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">close</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;And we're done with that bozo!&quot;</span>
+
+    <span class="ruby-identifier">write</span>( <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to_list</span>, <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">join</span>( <span class="ruby-value str">&quot;\n&quot;</span> ) )
+    
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

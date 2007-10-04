@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+#
+# Run the mailtrap server
+#
+
+require 'rubygems'
+require 'daemons'
+require 'mailtrap'
+
+opts = Trollop::options do
+  opt :host, "The host SMTP clients will connect to", :default => 'localhost'
+  opt :port, "The port SMTP clients will connect to", :default => 2525
+  opt :once, "Whether to terminate after serving the first client", :default => false
+  opt :msgdir, "Where messages get stored", :default => "/var/tmp"
+end
+
+options = {
+  :dir_mode => :normal,
+  :dir => '/var/tmp',
+  :multiple => true,
+  :mode => :exec,
+  :backtrace => true,
+  :log_output => true
+}
+
+Daemons.run_proc( 'mailtrap', options ) do
+  Mailtrap.new( opts[:host], opts[:port], opts[:once], opts[:msgdir] )
+end
