@@ -4,7 +4,7 @@ require 'rubygems'
 require 'hoe'
 require './lib/mailtrap.rb'
 
-Hoe.new('mailtrap', Mailtrap::VERSION) do |p|
+Hoe.new('mailtrap', Mailtrap::VERSION ) do |p|
   p.rubyforge_name = 'rubymatt'
   p.author = 'Matt Mower'
   p.email = 'self@mattmower.com'

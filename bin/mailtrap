@@ -11,7 +11,7 @@ opts = Trollop::options do
   opt :host, "The host SMTP clients will connect to", :default => 'localhost'
   opt :port, "The port SMTP clients will connect to", :default => 2525
   opt :once, "Whether to terminate after serving the first client", :default => false
-  opt :msgdir, "Where messages get stored", :default => "/var/tmp"
+  opt :file, "File where messages get written", :default => "/var/tmp/mailtrap.log"
 end
 
 options = {
@@ -24,5 +24,5 @@ options = {
 }
 
 Daemons.run_proc( 'mailtrap', options ) do
-  Mailtrap.new( opts[:host], opts[:port], opts[:once], opts[:msgdir] )
+  Mailtrap.new( opts[:host], opts[:port], opts[:once], opts[:file] )
 end

@@ -10,18 +10,21 @@ require 'trollop'
 # for them to deliver a message which it writes to disk.
 #
 class Mailtrap
-  VERSION = '0.1.0'
+  VERSION = '0.2.1'
   
   # Create a new Mailtrap on the specified host:port. If once it true it
   # will listen for one message then exit. Specify the msgdir where messages
   # are written.
-  def initialize( host, port, once, msgdir )
+  def initialize( host, port, once, msgfile )
     @host = host
     @port = port
     @once = once
-    @msgdir = msgdir
+    @msgfile = msgfile
     
-    puts "Mailtrap starting at #{@host}:#{port} and writing to #{@msgdir}"
+    File.open( @msgfile, "a" ) do |file|
+      file.puts "\n* Mailtrap started at #{@host}:#{port}\n"
+    end
+    
     service = TCPServer.new( @host, @port )
     accept( service )
   end
@@ -57,20 +60,14 @@ class Mailtrap
     from.gsub!( /MAIL FROM:\s*/, "" )
     to_list = to_list.map { |to| to.gsub( /RCPT TO:\s*/, "" ) }
     
-    # Figure out what the file name should be
-    n = 1
-    Dir.chdir( @msgdir ) do
-      files = Dir.glob( "smtp*.msg" )
-      if files.length > 0
-        n = 1 + Integer( files.last.gsub( /smtp(\d+)\.msg/, '\1' ) )
-      end
-    end
-        
-    File.open( File.join( @msgdir, "smtp%04d.msg" % n ), "w" ) do |file|
+    # Append to the end of the messages file
+    File.open( @msgfile, "a" ) do |file|
+      file.puts "* Message begins"
       file.puts "From: #{from}"
       file.puts "To: #{to_list.join(", ")}"
       file.puts "Body:"
       file.puts message
+      file.puts "\n* Message ends"
     end
 
   end

@@ -8,9 +8,9 @@ Mailtrap is a mock SMTP server for use in Rails development.
 
 Mailtrap waits on your choosen port for a client to connect and talks _just enough_ SMTP protocol for ActionMailer to successfully deliver its message.
 
-Mailtrap makes *no* attempt to actually deliver messages and, instead, writes them into sequentially numbered files on disk (hence the name 	Mail_trap_).
+Mailtrap makes *no* attempt to actually deliver messages and, instead, writes them into a file (hence the name 	Mail_trap_). Handy tip: use tail -f to see emails being received.
 
-You can configure the hostname (default: localhost) and port (default: 2525) for the server and also where the messages get written (default: /var/tmp). Messages will get written to files named smtp0001.msg, smtp0002.msg, and so on.
+You can configure the hostname (default: localhost) and port (default: 2525) for the server and also where the messages get written (default: /var/tmp/mailtrap.log).
 	
 == FEATURES/PROBLEMS:
 
@@ -21,16 +21,29 @@ You can configure the hostname (default: localhost) and port (default: 2525) for
 
 == SYNOPSIS:
 
+To use the defaults host:localhost, port:2525, file:/var/log/mailtrap.log
+
+* mailtrap start
+
+Customise startup:
+
+* sudo mailtrap start --host my.host --port 25 --once --file=/var/log/messages.txt
+
+(sudo because you want to use restricted port 25)
+
+For more info:
+
 * mailtrap --help (to see Daemonization options)
 * mailtrap start --help (to see Mailtrap options)
 
-* mailtrap start --host localhost --port 8025 --once --msgdir=/var/tmp
-
 == REQUIREMENTS:
 
-* Rubygems
+* Hoe rubygem
+* Rubygems rubygem
 * Daemons rubygem
 * Trollop rubygem
+
+All these are automatically installed if you use gem install -y
 
 == INSTALL:
 
