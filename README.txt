@@ -2,6 +2,7 @@ mailtrap
     by Matt Mower <self@mattmower.com>
     http://matt.blogs.it/
 
+    modified by Gwyn Morfey <mail@gwynmorfey.com>
 == DESCRIPTION:
 
 Mailtrap is a mock SMTP server for use in Rails development.
