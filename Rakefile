@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'hoe'
 require './lib/mailtrap.rb'
+require './lib/mailshovel.rb'
 
 Hoe.new('mailtrap', Mailtrap::VERSION ) do |p|
   p.rubyforge_name = 'rubymatt'

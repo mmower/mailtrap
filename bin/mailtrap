@@ -6,12 +6,16 @@
 require 'rubygems'
 require 'daemons'
 require 'mailtrap'
+require 'mailshovel' 
 
 opts = Trollop::options do
-  opt :host, "The host SMTP clients will connect to", :default => 'localhost'
-  opt :port, "The port SMTP clients will connect to", :default => 2525
+  opt :smtp_host, "The host SMTP clients will connect to", :default => 'localhost'
+  opt :smtp_port, "The port SMTP clients will connect to", :default => 2525
+  opt :pop3_host, "The host POP3 clients will connect to", :default => 'localhost'
+  opt :pop3_port, "The port POP3 clients will connect to", :default => 1100
   opt :once, "Whether to terminate after serving the first client", :default => false
-  opt :file, "File where messages get written", :default => "/var/tmp/mailtrap.log"
+  opt :file, "File where messages get written as a single file", :default => "/var/tmp/mailtrap.log"
+  opt :msg_dir, "Dir where messages are stored temporarily until served via POP3", :default=>"/var/tmp/mailtrap"
 end
 
 options = {
@@ -24,5 +28,10 @@ options = {
 }
 
 Daemons.run_proc( 'mailtrap', options ) do
-  Mailtrap.new( opts[:host], opts[:port], opts[:once], opts[:file] )
+  Mailtrap.new( opts[:smtp_host], opts[:smtp_port], opts[:once], opts[:file], opts[:msg_dir])
 end
+
+Daemons.run_proc( 'mailshovel', options ) do
+  Mailshovel.new( opts[:msg_dir], opts[:pop3_host], opts[:pop3_port] )
+end
+
