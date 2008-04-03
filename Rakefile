@@ -5,7 +5,7 @@ require 'hoe'
 require './lib/mailtrap.rb'
 
 Hoe.new('mailtrap', Mailtrap::VERSION ) do |p|
-  p.rubyforge_name = 'rubymatt'
+  p.rubyforge_name = 'simplyruby'
   p.author = 'Matt Mower'
   p.email = 'self@mattmower.com'
   p.summary = 'Mailtrap is a mock SMTP server for use in Rails development'
