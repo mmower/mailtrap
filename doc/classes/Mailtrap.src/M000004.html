@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/mailtrap.rb, line 80</span>
+  <pre><span class="ruby-comment cmt"># File lib/mailtrap.rb, line 78</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">serve</span>( <span class="ruby-identifier">connection</span> )
     <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">puts</span>( <span class="ruby-node">&quot;220 #{@host} MailTrap ready ESTMP&quot;</span> )
     <span class="ruby-identifier">helo</span> = <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">get_line</span> <span class="ruby-comment cmt"># whoever they are</span>

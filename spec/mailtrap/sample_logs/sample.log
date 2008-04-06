@@ -1,0 +1,25 @@
+* Mailtrap started at localhost:2525
+* Message begins
+From: <test@test.com>
+To: <recipient@test.com>
+Body:
+Date: Sat, 5 Apr 2008 14:59:55 +0100
+Message-Id: <47f785db61179_7a2124e658141@basilisk.home.tmail>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Body content A
+
+* Message ends
+* Message begins
+From: "Zoo Keeper" <keeper@zoo.com>
+To: "Bear" <bear@zoo.com>, "Giraffe" <giraffe@zoo.com>
+Body:
+Date: Sat, 5 Apr 2008 15:10:51 +0100
+Message-Id: <47f7886bdaec4_7a212af958226@basilisk.home.tmail>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Body content B
+
+* Message ends

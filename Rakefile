@@ -2,7 +2,9 @@
 
 require 'rubygems'
 require 'hoe'
-require './lib/mailtrap.rb'
+require 'spec'
+require 'spec/rake/spectask'
+require './lib/mailtrap'
 
 Hoe.new('mailtrap', Mailtrap::VERSION ) do |p|
   p.rubyforge_name = 'simplyruby'
@@ -15,6 +17,30 @@ Hoe.new('mailtrap', Mailtrap::VERSION ) do |p|
   p.remote_rdoc_dir = 'mailtrap'
   p.extra_deps << ['daemons','>= 1.0.8'] 
   p.extra_deps << ['trollop','>= 1.7']
+  p.extra_deps << ['tmail','>= 1.2.2']
 end
+
+namespace :spec do
+  desc "Run the specs under spec"
+  Spec::Rake::SpecTask.new('all') do |t|
+    t.spec_opts = ['--options', "spec/spec.opts"]
+    t.spec_files = FileList['spec/**/*_spec.rb']
+  end
+
+  desc "Run the specs under spec in specdoc format"
+  Spec::Rake::SpecTask.new('doc') do |t|
+    t.spec_opts = ['--format', "specdoc"]
+    t.spec_files = FileList['spec/**/*_spec.rb']
+  end
+
+  desc "Run the specs in HTML format"
+  Spec::Rake::SpecTask.new('html') do |t|
+    t.spec_opts = ['--format', "html"]
+    t.spec_files = FileList['spec/**/*_spec.rb']
+  end
+end
+
+desc "Run the default spec task"
+task :spec => :"spec:all"
 
 # vim: syntax=Ruby

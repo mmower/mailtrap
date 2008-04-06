@@ -56,7 +56,7 @@
     </tr>
     <tr class="top-aligned-row">
       <td><strong>Last Update:</strong></td>
-      <td>Thu Oct 04 10:55:14 +0100 2007</td>
+      <td>Sun Apr 06 18:32:54 +0100 2008</td>
     </tr>
     </table>
   </div>
@@ -88,14 +88,13 @@ ActionMailer to successfully deliver its message.
 </p>
 <p>
 <a href="../classes/Mailtrap.html">Mailtrap</a> makes <b>no</b> attempt to
-actually deliver messages and, instead, writes them into sequentially
-numbered files on disk (hence the name Mail_trap_).
+actually deliver messages and, instead, writes them into a file (hence the
+name Mail_trap_). Handy tip: use tail -f to see emails being received.
 </p>
 <p>
 You can configure the hostname (default: localhost) and port (default:
 2525) for the server and also where the messages get written (default:
-/var/tmp). Messages will get written to files named smtp0001.msg,
-smtp0002.msg, and so on.
+/var/tmp/mailtrap.log).
 </p>
 <h2>FEATURES/PROBLEMS:</h2>
 <ul>
@@ -113,6 +112,29 @@ smtp0002.msg, and so on.
 </li>
 </ul>
 <h2>SYNOPSIS:</h2>
+<p>
+To use the defaults host:localhost, port:2525, file:/var/log/mailtrap.log
+</p>
+<ul>
+<li>mailtrap start
+
+</li>
+</ul>
+<p>
+Customise startup:
+</p>
+<ul>
+<li>sudo mailtrap start &#8212;host my.host &#8212;port 25 &#8212;once
+&#8212;file=/var/log/messages.txt
+
+</li>
+</ul>
+<p>
+(sudo because you want to use restricted port 25)
+</p>
+<p>
+For more info:
+</p>
 <ul>
 <li>mailtrap &#8212;help (to see Daemonization options)
 
@@ -121,14 +143,13 @@ smtp0002.msg, and so on.
 href="../classes/Mailtrap.html">Mailtrap</a> options)
 
 </li>
-<li>mailtrap start &#8212;host localhost &#8212;port 8025 &#8212;once
-&#8212;msgdir=/var/tmp
-
-</li>
 </ul>
 <h2>REQUIREMENTS:</h2>
 <ul>
-<li>Rubygems
+<li>Hoe rubygem
+
+</li>
+<li>Rubygems rubygem
 
 </li>
 <li>Daemons rubygem
@@ -138,6 +159,9 @@ href="../classes/Mailtrap.html">Mailtrap</a> options)
 
 </li>
 </ul>
+<p>
+All these are automatically installed if you use gem install -y
+</p>
 <h2>INSTALL:</h2>
 <ul>
 <li>sudo gem install -y mailtrap

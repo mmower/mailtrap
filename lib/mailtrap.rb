@@ -1,8 +1,9 @@
-
 require 'rubygems'
 require 'daemons'
 require 'socket'
 require 'trollop'
+
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__)))
 
 #
 # Mailtrap creates a TCP server that listens on a specified port for SMTP

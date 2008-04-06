@@ -10,14 +10,17 @@
   <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/mailtrap.rb, line 18</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">host</span>, <span class="ruby-identifier">port</span>, <span class="ruby-identifier">once</span>, <span class="ruby-identifier">msgdir</span> )
+  <pre><span class="ruby-comment cmt"># File lib/mailtrap.rb, line 19</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">host</span>, <span class="ruby-identifier">port</span>, <span class="ruby-identifier">once</span>, <span class="ruby-identifier">msgfile</span> )
     <span class="ruby-ivar">@host</span> = <span class="ruby-identifier">host</span>
     <span class="ruby-ivar">@port</span> = <span class="ruby-identifier">port</span>
     <span class="ruby-ivar">@once</span> = <span class="ruby-identifier">once</span>
-    <span class="ruby-ivar">@msgdir</span> = <span class="ruby-identifier">msgdir</span>
+    <span class="ruby-ivar">@msgfile</span> = <span class="ruby-identifier">msgfile</span>
     
-    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Mailtrap starting at #{@host}:#{port} and writing to #{@msgdir}&quot;</span>
+    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>( <span class="ruby-ivar">@msgfile</span>, <span class="ruby-value str">&quot;a&quot;</span> ) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\n* Mailtrap started at #{@host}:#{port}\n&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    
     <span class="ruby-identifier">service</span> = <span class="ruby-constant">TCPServer</span>.<span class="ruby-identifier">new</span>( <span class="ruby-ivar">@host</span>, <span class="ruby-ivar">@port</span> )
     <span class="ruby-identifier">accept</span>( <span class="ruby-identifier">service</span> )
   <span class="ruby-keyword kw">end</span></pre>

@@ -59,6 +59,10 @@
                 lib/mailtrap.rb
                 </a>
         <br />
+                <a href="../files/lib/mailtrap/log_parser_rb.html">
+                lib/mailtrap/log_parser.rb
+                </a>
+        <br />
             </td>
         </tr>
 
@@ -80,10 +84,11 @@
 
     <div id="description">
       <p>
-<a href="Mailtrap.html">Mailtrap</a> creates a TCP server that listens on a
-specified port for SMTP clients. Accepts the connection and talks just
-enough of the SMTP protocol for them to deliver a message which it writes
-to disk.
+Class to read a <a href="Mailtrap.html">Mailtrap</a> log file and extract
+the emails, returning them as TMail objects. (Interim solution until we can
+get <a href="Mailtrap.html">Mailtrap</a> outputting structured log files.)
+&#8212; hacked together by Ashley Moran
+&lt;ashley.moran@patchspace.co.uk&gt; 06-Apr-2008
 </p>
 
     </div>
@@ -109,6 +114,12 @@ to disk.
 
     <div id="section">
 
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="Mailtrap/LogParser.html" class="link">Mailtrap::LogParser</a><br />
+
+    </div>
 
     <div id="constants-list">
       <h3 class="section-bar">Constants</h3>
@@ -118,7 +129,7 @@ to disk.
         <tr class="top-aligned-row context-row">
           <td class="context-item-name">VERSION</td>
           <td>=</td>
-          <td class="context-item-value">'0.1.0'</td>
+          <td class="context-item-value">'0.2.1'</td>
         </tr>
         </table>
       </div>
@@ -139,7 +150,7 @@ to disk.
         <div class="method-heading">
           <a href="Mailtrap.src/M000001.html" target="Code" class="method-signature"
             onclick="popupCode('Mailtrap.src/M000001.html');return false;">
-          <span class="method-name">new</span><span class="method-args">( host, port, once, msgdir )</span>
+          <span class="method-name">new</span><span class="method-args">( host, port, once, msgfile )</span>
           </a>
         </div>
       

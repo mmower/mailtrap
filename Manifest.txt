@@ -4,3 +4,13 @@ README.txt
 Rakefile
 bin/mailtrap
 lib/mailtrap.rb
+lib/mailtrap/log_parser.rb
+spec
+spec/mailtrap
+spec/mailtrap/log_parser_spec.rb
+spec/mailtrap/sample_logs
+spec/mailtrap/sample_logs/sample.log
+spec/mailtrap/sample_logs/sample_empty.log
+spec/spec.opts
+test
+test/test_mailtrap.rb
