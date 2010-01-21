@@ -2,9 +2,8 @@
 
 require 'rubygems'
 require 'hoe'
-require 'spec'
-require 'spec/rake/spectask'
-require './lib/mailtrap'
+require './lib/mailtrap.rb'
+require './lib/mailshovel.rb'
 
 Hoe.new('mailtrap', Mailtrap::VERSION ) do |p|
   p.rubyforge_name = 'simplyruby'

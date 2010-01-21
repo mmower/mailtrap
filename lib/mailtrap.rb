@@ -10,17 +10,21 @@ $:.unshift File.expand_path(File.join(File.dirname(__FILE__)))
 # clients. Accepts the connection and talks just enough of the SMTP protocol
 # for them to deliver a message which it writes to disk.
 #
+# Based on Matt Mower's original; slightly modified by Gwyn Morfey to write messages
+# as separate files so that we can serve them out by POP3. 
 class Mailtrap
-  VERSION = '0.2.1'
+  VERSION = '0.2.2'
   
   # Create a new Mailtrap on the specified host:port. If once it true it
   # will listen for one message then exit. Specify the msgdir where messages
   # are written.
-  def initialize( host, port, once, msgfile )
+  def initialize( host, port, once, msgfile, msgdir )
     @host = host
     @port = port
     @once = once
     @msgfile = msgfile
+    @msgdir = msgdir
+    @msgnum = 0
     
     File.open( @msgfile, "a" ) do |file|
       file.puts "\n* Mailtrap started at #{@host}:#{port}\n"
@@ -56,6 +60,7 @@ class Mailtrap
   # file. The file will be in the @msgdir folder and will
   # be called smtp0001.msg, smtp0002.msg, and so on.
   def write( from, to_list, message )
+    @msgnum += 1
     
     # Strip SMTP commands from To: and From:
     from.gsub!( /MAIL FROM:\s*/, "" )
@@ -70,7 +75,12 @@ class Mailtrap
       file.puts message
       file.puts "\n* Message ends"
     end
-
+    
+    #Write into msgs dir, also - Mailshovel needs this.
+    Dir.mkdir(@msgdir) if !File.exist?(@msgdir)
+    File.open(File.join(@msgdir,Time.now.to_i.to_s  + "_" + sprintf("%03.0f",@msgnum) + ".txt"),"w") do |file|
+      file.puts message
+    end
   end
   
   # Talk pidgeon-SMTP to the client to get them to hand over the message
