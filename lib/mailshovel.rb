@@ -13,7 +13,8 @@ class Mailshovel
   def initialize(service, msgdir)
     @service = service
     @msgdir = msgdir
-
+    @deletion_queue = []
+    
     accept(service)
   end
 
@@ -35,6 +36,7 @@ class Mailshovel
       begin
         serve( session )
       rescue Exception => e
+        warn e.message
         puts "Erk! #{e.message}"
       end
     end
@@ -75,9 +77,10 @@ class Mailshovel
           senddata connection, "\r\n.\r\n"
         when "DELE"
           senddata connection, "+OK\r\n"
-          File.unlink(messages[incoming.split(" ")[1].to_i-1])
+          schedule_for_delete(messages[incoming.split(" ")[1].to_i-1])
         when "QUIT"
           senddata connection, "+OK Closing connection.\r\n"
+          delete_pending_mail
           connection.close
         else
           senddata connection, "-ERR I don't understand '#{incoming}'.\r\n"
@@ -89,5 +92,15 @@ class Mailshovel
   def senddata(connection,data)
     puts "> #{data}"
     connection.puts data
+  end
+  
+  private
+  
+  def schedule_for_delete(message)
+    @deletion_queue << message
+  end
+  
+  def delete_pending_mail
+    @deletion_queue.each { |message| FileUtils.rm(message) }
   end
 end

@@ -22,9 +22,9 @@ class FakeTCP
   end
   
   def say(string)
+    @input.puts(string + "\r\n")
     @input.rewind
-    @input.puts(string)
-    @input.rewind
+    sleep(0.1)
   end
   
   def gets
@@ -46,6 +46,7 @@ class MailshovelTest < Test::Unit::TestCase
     end
     
     teardown do
+      FakeFS::FileSystem.clear
       $stdout = STDOUT
       @runner.kill if @runner
     end
@@ -61,7 +62,7 @@ class MailshovelTest < Test::Unit::TestCase
     end
     
     should "respond to LIST command with a list of mail" do
-      3.times { |x| FileUtils.touch("/tmp/mailshovel/message#{x}.txt") }
+      3.times { |x| FileUtils.touch("/tmp/mailshovel/message#{x + 1}.txt") }
 
       with_mailshovel do
         say("LIST")
@@ -71,15 +72,56 @@ class MailshovelTest < Test::Unit::TestCase
     end
     
     should "respond to STAT command with the number of messages" do
-      5.times { |x| FileUtils.touch("/tmp/mailshovel/message#{x}.txt") }
+      3.times { |x| FileUtils.touch("/tmp/mailshovel/message#{x + 1}.txt") }
       
       with_mailshovel do
         say("STAT")
       end
       
-      assert_received_response(/OK 5 5/)
+      assert_received_response(/OK 3 3/)
     end
     
+    context "when sending a DELE command" do
+      setup do
+        2.times do |x| 
+          File.open("/tmp/mailshovel/message#{x + 1}.txt", 'w+') do |io|
+            io.write("MESSAGE #{x + 1}")
+          end
+        end
+      end
+      
+      teardown do
+        FakeFS::FileSystem.clear
+      end
+
+      should "not immediately delete messages" do
+        with_mailshovel do
+          say("DELE 2")
+        end
+        
+        assert File.exist?("/tmp/mailshovel/message2.txt")
+      end
+      
+      should "still allow the message to be retrieved using its original index" do
+        with_mailshovel do
+          say("DELE 1")
+          say("RETR 1")
+        end
+        
+        assert_received_response(/MESSAGE 1/)
+      end
+      
+      should "delete messages on QUIT" do
+        with_mailshovel do
+          say("DELE 1")
+          say("DELE 2")
+          say("QUIT")
+        end
+        
+        assert !File.exist?("/tmp/mailshovel/message1.txt")
+        assert !File.exist?("/tmp/mailshovel/message2.txt")
+      end
+    end
   end
   
   private
@@ -90,10 +132,10 @@ class MailshovelTest < Test::Unit::TestCase
     end
     
     @connection.instance_eval(&block)
+    sleep 1
   end
   
   def assert_received_response(regexp)
-    sleep 0.1
     @connection.output.rewind
     assert_match regexp, @connection.output.read
   end
