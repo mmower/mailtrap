@@ -32,6 +32,6 @@ Daemons.run_proc( 'mailtrap', options ) do
 end
 
 Daemons.run_proc( 'mailshovel', options ) do
-  Mailshovel.connect( opts[:msg_dir], opts[:pop3_host], opts[:pop3_port] )
+  Mailshovel.connect( opts[:pop3_host], opts[:pop3_port], opts[:msg_dir] )
 end
 
