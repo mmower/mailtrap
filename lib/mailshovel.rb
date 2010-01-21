@@ -19,7 +19,7 @@ class Mailshovel
   end
 
   def self.connect(host, port, msgdir)
-    service = TCPServer.new(@host, @port)
+    service = TCPServer.new(host, port)
     new(service, msgdir)
   end
 
