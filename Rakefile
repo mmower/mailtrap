@@ -5,7 +5,7 @@ require 'hoe'
 require './lib/mailtrap.rb'
 require './lib/mailshovel.rb'
 
-Hoe.new('mailtrap', Mailtrap::VERSION ) do |p|
+Hoe.spec('mailtrap') do |p|
   p.rubyforge_name = 'simplyruby'
   p.author = 'Matt Mower'
   p.email = 'self@mattmower.com'
@@ -21,21 +21,24 @@ end
 
 namespace :spec do
   desc "Run the specs under spec"
-  Spec::Rake::SpecTask.new('all') do |t|
-    t.spec_opts = ['--options', "spec/spec.opts"]
-    t.spec_files = FileList['spec/**/*_spec.rb']
+  RSpec::Core::RakeTask.new('all') do |t|
+    t.rspec_opts = ['--options', "spec/spec.opts"]
+    #t.spec_files = FileList['spec/**/*_spec.rb']
+    t.pattern = 'spec/**/*_spec.rb'
   end
 
   desc "Run the specs under spec in specdoc format"
-  Spec::Rake::SpecTask.new('doc') do |t|
-    t.spec_opts = ['--format', "specdoc"]
-    t.spec_files = FileList['spec/**/*_spec.rb']
+  RSpec::Core::RakeTask.new('doc') do |t|
+    t.rspec_opts = ['--format', "specdoc"]
+    #t.spec_files = FileList['spec/**/*_spec.rb']
+    t.pattern = 'spec/**/*_spec.rb'
   end
 
   desc "Run the specs in HTML format"
-  Spec::Rake::SpecTask.new('html') do |t|
-    t.spec_opts = ['--format', "html"]
-    t.spec_files = FileList['spec/**/*_spec.rb']
+  RSpec::Core::RakeTask.new('html') do |t|
+    t.rspec_opts = ['--format', "html"]
+    #t.spec_files = FileList['spec/**/*_spec.rb']
+    t.pattern = 'spec/**/*_spec.rb'
   end
 end
 
