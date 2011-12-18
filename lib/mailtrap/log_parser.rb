@@ -1,4 +1,4 @@
-require 'tmail'
+require 'mail'
 
 # Class to read a Mailtrap log file and extract the emails,
 # returning them as TMail objects.  (Interim solution until

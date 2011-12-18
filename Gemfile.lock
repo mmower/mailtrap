@@ -72,6 +72,7 @@ DEPENDENCIES
   actionmailer
   daemons
   hoe
+  mail
   rake
   rdoc
   rspec
