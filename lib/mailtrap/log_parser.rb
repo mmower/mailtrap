@@ -1,14 +1,14 @@
 require 'mail'
 
 # Class to read a Mailtrap log file and extract the emails,
-# returning them as TMail objects.  (Interim solution until
+# returning them as Mail objects.  (Interim solution until
 # we can get Mailtrap outputting structured log files.)
 # --
 # hacked together by Ashley Moran <ashley.moran@patchspace.co.uk> 06-Apr-2008
 class Mailtrap
   class LogParser
     class << self
-      # Reads a file by its filename and returns an array of TMail objects
+      # Reads a file by its filename and returns an array of Mail objects
       def parse(filename)
         emails = nil
       
@@ -16,7 +16,7 @@ class Mailtrap
           emails = extract_messages(f.readlines)
         end
       
-        emails.map { |email| TMail::Mail.parse(email) }
+        emails.map { |email| Mail.new(email) }
       end
     
       private
