@@ -50,7 +50,7 @@ All these are automatically installed if you use gem install -y
 
 == INSTALL:
 
-* sudo gem install -y mailshovel
+* sudo gem install -y mailtrap
 
 == LICENSE:
 
