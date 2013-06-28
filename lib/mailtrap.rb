@@ -94,6 +94,8 @@ class Mailtrap
       puts "Seen an EHLO"
       connection.puts "250-#{@host} offers just ONE extension my pretty"
       connection.puts "250 HELP"
+    else
+      connection.puts( "250 OK" )
     end
     
     # Accept MAIL FROM:
