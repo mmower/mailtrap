@@ -1,8 +1,9 @@
-mailtrap
-    by Matt Mower <self@mattmower.com>
-    http://matt.blogs.it/
+= mailtrap
+* http://matt.blogs.it/
 
+    by Matt Mower <self@mattmower.com>
     modified (and Mailshovel added) by Gwyn Morfey <mail@gwynmorfey.com>
+    modified (and updated) by James Cuzella <james.cuzella@lyraphase.com>
 
 == DESCRIPTION:
 
@@ -57,6 +58,7 @@ All these are automatically installed if you use gem install -y
 (The MIT License)
 
 Copyright (c) 2007 Matt Mower, Software Heretics
+Copyright (c) 2013 James Cuzella
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

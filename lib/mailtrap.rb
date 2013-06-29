@@ -1,3 +1,4 @@
+require 'base64'
 require 'rubygems'
 require 'daemons'
 require 'socket'
@@ -13,7 +14,7 @@ $:.unshift File.expand_path(File.join(File.dirname(__FILE__)))
 # Based on Matt Mower's original; slightly modified by Gwyn Morfey to write messages
 # as separate files so that we can serve them out by POP3. 
 class Mailtrap
-  VERSION = '0.2.2'
+  VERSION = '0.2.3.20130709144258'
   
   # Create a new Mailtrap on the specified host:port. If once it true it
   # will listen for one message then exit. Specify the msgdir where messages
@@ -87,19 +88,56 @@ class Mailtrap
   # and go away.
   def serve( connection )
     connection.puts( "220 #{@host} MailTrap ready ESTMP" )
-    helo = connection.get_line # whoever they are
-    puts "Helo: #{helo}"
     
-    if helo =~ /^EHLO\s+/
-      puts "Seen an EHLO"
-      connection.puts "250-#{@host} offers just ONE extension my pretty"
-      connection.puts "250 HELP"
-    end
-    
-    # Accept MAIL FROM:
-    from = connection.get_line
-    connection.puts( "250 OK" )
-    puts "From: #{from}"
+    # Keep handling commands until we see a MAIL FROM:
+    from = nil
+    loop do
+      client_cmd = connection.get_line
+      if client_cmd =~ /^EHLO\s*/
+        puts "Seen an EHLO"
+        connection.puts "250-#{@host} offers just ONE extension my pretty"
+        connection.puts "250 HELP"
+      elsif client_cmd =~ /^HELO\s*/
+        puts "Helo: #{client_cmd}"
+        connection.puts '250 OK'
+      elsif client_cmd =~ /^STARTTLS$/
+        #connection.puts "220 Ready to start TLS" ## TODO: if ye want a challenge
+        connection.puts "454 TLS not available due to temporary reason (mailtrap doesn't support it yet)"
+        connection.close
+      elsif client_cmd =~ /^AUTH LOGIN$/
+        # Support plaintext login
+        connection.puts "334 VXNlcm5hbWU6" # 334 Username:
+        username = Base64.decode64(connection.get_line)
+        connection.puts "334 UGFzc3dvcmQ6" # 334 Password:
+        password = Base64.decode64(connection.get_line)
+        connection.puts '235 Authentication succeeded'
+        log_credentials(username, password)
+      elsif client_cmd =~ /^AUTH LOGIN\s+.+$/
+        # Support alternate login style
+        username = Base64.decode64(client_cmd.gsub(/^AUTH LOGIN\s+(.+)$/, '\1'))
+        connection.puts "334 UGFzc3dvcmQ6" # 334 Password:
+        password = Base64.decode64(connection.get_line)
+        connection.puts '235 Authentication succeeded'
+        log_credentials(username, password)
+      elsif client_cmd =~ /^NOOP$/
+        connection.puts '250 OK'
+      elsif client_cmd =~ /^MAIL FROM:.*/i
+        # Accept MAIL FROM:
+        from = client_cmd
+        puts "From: #{from}"
+        connection.puts '250 OK'
+      elsif client_cmd =~ /^QUIT$/
+        connection.puts '221 Seeya'
+        connection.close
+      else
+        # Not sure what they said... Eat the command & look the other way?
+        puts "Fishy client sent us: #{client_cmd}"
+        connection.puts '250 OK'
+      end
+
+      break if !from.nil?
+    end 
+
     
     to_list = []
     
@@ -136,6 +174,14 @@ class Mailtrap
 
     write( from, to_list, lines.join( "\n" ) )
     
+  end
+
+  private
+  
+  def log_credentials(username, password)
+      puts "What a silly client, it sent us their password in the clear!" if !username.nil? && !password.nil? && !password.empty?
+      puts "Username: #{username}"
+      puts "Password: #{password}"
   end
   
 end

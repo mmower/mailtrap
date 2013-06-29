@@ -1,18 +1,18 @@
-source :rubygems
-gem 'rspec'
-gem 'hoe'
-gem 'rake'
-gem 'rdoc'
-gem 'daemons'
-gem 'trollop'
-gem 'actionmailer'
-gem 'mail'
-#gem 'logger'
-#gem 'sinatra'
-#gem 'thin'
-#gem 'data_mapper'
-#gem 'dm-types'
-#gem 'dm-postgres-adapter'
-#gem 'dm-timestamps'
-#gem 'dm-is-remixable'
-#gem 'haml'
+source 'https://rubygems.org'
+ruby '1.9.3'
+
+gemspec
+
+group :test do
+    gem 'hoe'
+    gem 'hoe-gemspec'
+    gem 'hoe-git'
+    gem 'rspec'
+    gem 'rake'
+    gem 'rdoc'
+    gem 'shoulda'
+    gem 'mocha'
+    gem 'fakefs'
+    gem 'tmail', '~> 1.2.3'
+    gem 'debugger'
+end
