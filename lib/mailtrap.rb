@@ -1,3 +1,4 @@
+require 'base64'
 require 'rubygems'
 require 'daemons'
 require 'socket'
@@ -94,8 +95,39 @@ class Mailtrap
       puts "Seen an EHLO"
       connection.puts "250-#{@host} offers just ONE extension my pretty"
       connection.puts "250 HELP"
+    elsif helo =~ /^HELO\s+/
+      connection.puts '250 OK'
+    end
+
+    # Support plaintext login
+    client_cmd = connection.get_line
+    if client_cmd =~ /^STARTTLS$/
+      #connection.puts "220 Ready to start TLS" ## TODO: if ye want a challenge
+      connection.puts "454 TLS not available due to temporary reason (mailtrap doesn't support it yet)"
+    elsif client_cmd =~ /^AUTH LOGIN$/
+      connection.puts "334 VXNlcm5hbWU6" # 334 Username:
+      username = Base64.decode64(connection.get_line)
+      connection.puts "334 UGFzc3dvcmQ6" # 334 Password:
+      password = Base64.decode64(connection.get_line)
+      connection.puts '235 Authentication succeeded'
+      log_credentials(username, password)
+    elsif client_cmd =~ /^AUTH LOGIN\s+.+$/
+      username = Base64.decode64(client_cmd.gsub(/^AUTH LOGIN\s+(.+)$/, '\1'))
+      connection.puts "334 UGFzc3dvcmQ6" # 334 Password:
+      password = Base64.decode64(connection.get_line)
+      connection.puts '235 Authentication succeeded'
+      log_credentials(username, password)
+    elsif client_cmd =~ /^NOOP$/
+      connection.puts '250 OK'
+    elsif client_cmd =~ /^MAIL FROM:.*/i
+      # Support anonymous users
+      from = client_cmd
+      puts "Got a From: #{from}"
+      connection.puts '250 OK'
     else
-      connection.puts( "250 OK" )
+      # Not sure what they said... Eat the command & look the other way?
+      puts "Fishy client sent us: #{client_cmd}"
+      connection.puts '250 OK'
     end
     
     # Accept MAIL FROM:
@@ -138,6 +170,14 @@ class Mailtrap
 
     write( from, to_list, lines.join( "\n" ) )
     
+  end
+
+  private
+  
+  def log_credentials(username, password)
+      puts "What a silly client, it sent us their password in the clear!" if !username.nil? && !password.nil?
+      puts "Username: #{username}"
+      puts "Password: #{password}"
   end
   
 end
