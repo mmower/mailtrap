@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'shoulda'
-require 'mocha'
+require 'mocha/setup'
 require 'fileutils'
 require File.join(File.dirname(__FILE__), *%w[.. lib mailshovel])
 
