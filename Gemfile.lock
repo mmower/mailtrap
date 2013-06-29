@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mailtrap (0.2.2.20130628225132)
+    mailtrap (0.2.3.20130628225132)
       daemons (>= 1.0.8)
       mail (~> 2.3.0)
       trollop (>= 1.7)
