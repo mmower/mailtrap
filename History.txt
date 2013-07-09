@@ -1,4 +1,35 @@
-== 1.0.0 / 2007-10-03
+== 0.2.3. / 2013
+* Github fork pre-release (trinitronx/mailtrap)
+  * 
+
+== 0.2.2 / 2008-03-31
+* Github pre-release
+  * Mailshovel added by Gwyn Morfey
+  * Mailtrap writes messages as separate files to msg_dir so that we can serve them out by POP3.
+  * Default --msg_dir: /var/tmp/mailtrap.log
+  * Default --pop3_host: localhost
+  * Default --pop3_port: 1100
+
+== 0.2.1 / 2008-04-03
+
+* Rubyforge & RubyGems release
+  * Moved to 'SimplyRuby' RubyForge project
+  * Log beginning & end of each message
+  * Log mailtrap start to msgfile
+  * README improvements
+
+== 0.2.0 / 2007-10-03
+
+* RubyGems release
+  * Append to the end of the messages file
+  * Mailtrap --msgdir changed to --file (Default: /var/tmp/mailtrap.log)
+  * Default --host: localhost
+  * Default --port: 2525
+  * Default --once: false
+  * Added comments
+  * README improvements
+
+== 0.1.0 / 2007-10-03
 
 * 1 major enhancement
   * Birthday!
