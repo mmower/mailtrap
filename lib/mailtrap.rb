@@ -14,7 +14,7 @@ $:.unshift File.expand_path(File.join(File.dirname(__FILE__)))
 # Based on Matt Mower's original; slightly modified by Gwyn Morfey to write messages
 # as separate files so that we can serve them out by POP3. 
 class Mailtrap
-  VERSION = '0.2.3'
+  VERSION = '0.2.3.20130709144258'
   
   # Create a new Mailtrap on the specified host:port. If once it true it
   # will listen for one message then exit. Specify the msgdir where messages

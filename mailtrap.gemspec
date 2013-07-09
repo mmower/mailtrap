@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = "mailtrap"
-  s.version = "0.2.3.20130628225132"
+  s.version = "0.2.3.20130709144258"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matt Mower"]
-  s.date = "2013-06-29"
+  s.date = "2013-07-09"
   s.description = "Mailtrap is a mock SMTP server for use in Rails development. This package also includes Mailshovel, a mock POP3 server that works with Mailtrap. You can configure your mail client (eg Mail.App) to connect to Mailshovel, and then manage messages that ActionMailer has \"sent\" using its GUI.\n\nMailtrap waits on your chosen port for a client to connect and talks _just enough_ SMTP protocol for ActionMailer to successfully deliver its message.\n\nMailtrap makes *no* attempt to actually deliver messages and, instead, writes them into a series of files which are read by Mailshovel.\n\nYou can configure the hostname (default: localhost) and port (default: 2525) for the server and also where the messages get written (default: /var/tmp/mailtrap.log)."
   s.email = ["self@mattmower.com"]
   s.executables = ["mailtrap"]
