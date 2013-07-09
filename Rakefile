@@ -7,6 +7,7 @@ require 'rspec/core/rake_task'
 #require './lib/mailshovel.rb'
 # Hoe.plugin :rcov
 Hoe.plugin :gemspec
+Hoe.plugin :git
 
 Hoe.spec "mailtrap" do
  self.rubyforge_name = 'simplyruby'

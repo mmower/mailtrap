@@ -6,6 +6,7 @@ gemspec
 group :test do
     gem 'hoe'
     gem 'hoe-gemspec'
+    gem 'hoe-git'
     gem 'rspec'
     gem 'rake'
     gem 'rdoc'

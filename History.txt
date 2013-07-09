@@ -1,6 +1,34 @@
-== 0.2.3.20130709144258 / 2013-07-09
+=== 0.2.3.20130709144258 / 2013-07-09
 * Github fork pre-release (trinitronx/mailtrap)
-  * 
+  * Many fixes, gem development updates + Better SMTP client support!
+
+* 5 bug fixes:
+
+  * Fixed Gemfile dev/test dependencies ^_^
+  * If client uses HELO, send 250 OK first so client goes ahead
+  * Fixed a hang when using ssmtp + mailtrap
+  * Fix client out of bounds error: Delete files only after QUIT when DELE command is received (by Luke Redpath)
+  * Fixed broken #connect method, use local not instance vars
+
+* 4 major enhancements:
+  
+  * Added support for AUTH LOGIN, NOOP, and other easy SMTP verbs
+  * RSpec tests all PASSING!
+  * Added Mailtrap::LogParser for turning Mailtrap log files into an array of TMail::Mail objects - useful for inspecting the file
+    for testing purposes. (by Ashley Moran)
+  * Migrated from abandonware TMail to Mail (by Larry Siden)
+
+* 9 minor enhancements:
+
+  * Cleaned up Rakefile to use newer Hoe syntax
+  * Cleaned up many deprecation warnings
+  * Added .gemtest file to suppress bundler error
+  * Using pattern instead of list of files for RSpec
+  * Re-generated gemspec & boilerplate stuff using Hoe + flavorjones/hoe-gemspec
+  * Tests added by Luke Redpath
+  * Added a gemspec so we can use bundler
+  * Pass Mailshovel arguments in the correct order (by Luke Redpath)
+  * Updated History file with all back versions & update descriptions
 
 == 0.2.2 / 2008-03-31
 * Github pre-release
