@@ -87,7 +87,7 @@ class Mailtrap
   # Talk pidgeon-SMTP to the client to get them to hand over the message
   # and go away.
   def serve( connection )
-    connection.puts( "220 #{@host} MailTrap ready ESTMP" )
+    connection.puts( "220 #{@host} MailTrap ready ESMTP" )
     
     # Keep handling commands until we see a MAIL FROM:
     from = nil
