@@ -1,4 +1,63 @@
-== 1.0.0 / 2007-10-03
+=== 0.2.3.20130709144258 / 2013-07-09
+* Github fork pre-release (trinitronx/mailtrap)
+  * Many fixes, gem development updates + Better SMTP client support!
+
+* 5 bug fixes:
+
+  * Fixed Gemfile dev/test dependencies ^_^
+  * If client uses HELO, send 250 OK first so client goes ahead
+  * Fixed a hang when using ssmtp + mailtrap
+  * Fix client out of bounds error: Delete files only after QUIT when DELE command is received (by Luke Redpath)
+  * Fixed broken #connect method, use local not instance vars
+
+* 4 major enhancements:
+  
+  * Added support for AUTH LOGIN, NOOP, and other easy SMTP verbs
+  * RSpec tests all PASSING!
+  * Added Mailtrap::LogParser for turning Mailtrap log files into an array of TMail::Mail objects - useful for inspecting the file
+    for testing purposes. (by Ashley Moran)
+  * Migrated from abandonware TMail to Mail (by Larry Siden)
+
+* 9 minor enhancements:
+
+  * Cleaned up Rakefile to use newer Hoe syntax
+  * Cleaned up many deprecation warnings
+  * Added .gemtest file to suppress bundler error
+  * Using pattern instead of list of files for RSpec
+  * Re-generated gemspec & boilerplate stuff using Hoe + flavorjones/hoe-gemspec
+  * Tests added by Luke Redpath
+  * Added a gemspec so we can use bundler
+  * Pass Mailshovel arguments in the correct order (by Luke Redpath)
+  * Updated History file with all back versions & update descriptions
+
+== 0.2.2 / 2008-03-31
+* Github pre-release
+  * Mailshovel added by Gwyn Morfey
+  * Mailtrap writes messages as separate files to msg_dir so that we can serve them out by POP3.
+  * Default --msg_dir: /var/tmp/mailtrap.log
+  * Default --pop3_host: localhost
+  * Default --pop3_port: 1100
+
+== 0.2.1 / 2008-04-03
+
+* Rubyforge & RubyGems release
+  * Moved to 'SimplyRuby' RubyForge project
+  * Log beginning & end of each message
+  * Log mailtrap start to msgfile
+  * README improvements
+
+== 0.2.0 / 2007-10-03
+
+* RubyGems release
+  * Append to the end of the messages file
+  * Mailtrap --msgdir changed to --file (Default: /var/tmp/mailtrap.log)
+  * Default --host: localhost
+  * Default --port: 2525
+  * Default --once: false
+  * Added comments
+  * README improvements
+
+== 0.1.0 / 2007-10-03
 
 * 1 major enhancement
   * Birthday!

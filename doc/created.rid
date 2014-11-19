@@ -1,1 +1,13 @@
-Sun, 06 Apr 2008 19:24:06 +0100
+Sun, 18 Dec 2011 01:40:03 -0500
+./History.txt	Sat, 17 Dec 2011 21:56:17 -0500
+./lib/mailtrap/log_parser.rb	Sun, 18 Dec 2011 01:27:18 -0500
+./lib/mailshovel.rb	Sat, 17 Dec 2011 21:56:17 -0500
+./lib/mailtrap.rb	Sat, 17 Dec 2011 21:56:17 -0500
+./Rakefile	Sun, 18 Dec 2011 00:27:56 -0500
+./Manifest.txt	Sat, 17 Dec 2011 21:56:17 -0500
+./README.txt	Sun, 18 Dec 2011 00:24:12 -0500
+./test/mailshovel_test.rb	Sat, 17 Dec 2011 21:56:17 -0500
+./test/test_mailtrap.rb	Sat, 17 Dec 2011 21:56:17 -0500
+./spec/mailtrap/log_parser_spec.rb	Sun, 18 Dec 2011 01:21:26 -0500
+./bin/mailtrap	Sat, 17 Dec 2011 21:56:17 -0500
+./Gemfile	Sun, 18 Dec 2011 01:26:40 -0500
