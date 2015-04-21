@@ -8,6 +8,7 @@ group :test do
     gem 'hoe-gemspec'
     gem 'hoe-git'
     gem 'rspec'
+    gem 'minitest', '~> 4.7', :platforms => :ruby_19
     gem 'rake'
     gem 'rdoc'
     gem 'shoulda'
