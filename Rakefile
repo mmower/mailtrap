@@ -10,8 +10,9 @@ Hoe.plugin :gemspec
 Hoe.plugin :git
 
 Hoe.spec "mailtrap" do
- self.rubyforge_name = 'simplyruby'
+ #self.rubyforge_name = 'simplyruby' ## Rubyforge shut down
  developer 'Matt Mower', 'self@mattmower.com'
+ developer 'James Cuzella', 'james.cuzella@lyraphase.com'
  #summary 'Mailtrap is a mock SMTP server for use in Rails development'
  #description self.paragraphs_of('README.txt', 0).first.split(/\n/)[1..-1]
  #url self.paragraphs_of('README.txt', 0).first.split(/\n/)[1..-1]
@@ -20,6 +21,12 @@ Hoe.spec "mailtrap" do
  extra_deps << ['daemons','>= 1.0.8'] 
  extra_deps << ['trollop','>= 1.7']
  extra_deps << ['mail','~> 2.3.0']
+
+ extra_dev_deps << ["rspec", "~> 3.0"]
+ extra_dev_deps << ["simplecov", "~> 0.9"]
+ extra_dev_deps << ["bundler", "~> 1.6"]
+ extra_dev_deps << ["rake", "~> 10.0"]
+ extra_dev_deps << ["hoe", "~> 3.13"]
 end
 
 namespace :spec do
